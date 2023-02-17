@@ -7,7 +7,11 @@ type BotOptions = Omit<ClientOptions, "intents">;
 export class BotClient<Ready extends boolean = boolean> extends Client<Ready> {
   constructor(options?: BotOptions) {
     super({
-      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageTyping,
+      ],
       ...options,
     });
   }
