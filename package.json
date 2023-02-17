@@ -1,0 +1,25 @@
+{
+  "name": "discogpt",
+  "version": "1.0.0",
+  "description": "Talk to ChatGPT through Discord.",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Toastify (https://toastify.tk/)",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
+    "openai": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}
