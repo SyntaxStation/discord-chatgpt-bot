@@ -20,17 +20,12 @@ export default new Event({
       const response = await getResponse({
         client,
         user: message.author,
-        prompt: message.content
-          .split(`<@${client.user.id}>`)
-          .join(" ")
-          .startsWith(" ")
-          ? message.content
-              .split(`<@${client.user.id}>`)
-              .join(" ")
-              .replace(" ", "")
-          : message.content.split(`<@${client.user.id}>`).join(" "),
+        prompt: message.content.replace(/<@(\d+)>/gi, (_, id) => {
+          const user = message.mentions.users.find((user) => user.id === id);
+          if (user) return `<@${user.username}>`;
+          else return `<@:unknown>`;
+        }),
       });
-
       return message.reply(response);
     }
   },
