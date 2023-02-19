@@ -1,4 +1,4 @@
-import { ClientEvents, If } from "discord.js";
+import { ClientEvents } from "discord.js";
 import { BotClient } from "./BotClient";
 
 interface EventOptions<K extends keyof ClientEvents> {

@@ -1,7 +1,7 @@
 import { Event } from "../structures/Event";
 import { Configuration, OpenAIApi } from "openai";
 import { BotClient } from "../structures/BotClient";
-import { User } from "discord.js";
+import { DMChannel, User } from "discord.js";
 
 const openai = new OpenAIApi(
   new Configuration({
@@ -12,9 +12,24 @@ const openai = new OpenAIApi(
 export default new Event({
   name: "messageCreate",
   run: async (client, message) => {
-    if (message.author.bot || !message.inGuild()) return;
+    if (message.author.bot) return;
 
-    if (message.mentions.users.has(client.user.id)) {
+    if (message.inGuild()) {
+      if (message.mentions.users.has(client.user.id)) {
+        await message.channel.sendTyping();
+
+        const response = await getResponse({
+          client,
+          user: message.author,
+          prompt: message.content.replace(/<@(\d+)>/gi, (_, id) => {
+            const user = message.mentions.users.find((user) => user.id === id);
+            if (user) return `<@${user.username}>`;
+            else return `<@:unknown>`;
+          }),
+        });
+        return message.reply(response);
+      }
+    } else if (message.channel.isDMBased()) {
       await message.channel.sendTyping();
 
       const response = await getResponse({
@@ -43,7 +58,7 @@ async function getResponse({
   const prompt = [
     `You are a chat bot inside of a Discord server. Your name is ${client.user.username}.`,
     `You respond to queries users ask you, which could be anything. Your goal is to be pleasant and welcoming.`,
-    `Inside users messages to you, they'll refer to you by saying <@${client.user.username}> somewhere in the message.`,
+    `Inside users messages to you, they'll refer to you by saying <@${client.user.username}> or ${client.user.username} somewhere in the message.`,
     `User input may be multi-line, and you can respond with multiple lines as well. Here are some examples:`,
     ``,
     `${user.username} said: Hi <@${client.user.username}>!`,
