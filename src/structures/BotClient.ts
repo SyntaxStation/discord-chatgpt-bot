@@ -49,7 +49,10 @@ export class BotClient<Ready extends boolean = boolean> extends Client<Ready> {
           if (!command?.data || !command?.run) return;
 
           this.commands.set(command.data.toJSON().name, command);
-          commands.push(command.data.toJSON());
+          commands.push({
+            ...command.data.toJSON(),
+            dmPermission: false,
+          });
         })
     );
 
