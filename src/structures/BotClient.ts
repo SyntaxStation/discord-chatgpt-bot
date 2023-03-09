@@ -9,7 +9,7 @@ import {
 import fs from "fs";
 import path from "path";
 import { CommandOptions } from "./Command";
-import config from "../../config.json";
+import config from "../config.json";
 
 type BotOptions = Omit<ClientOptions, "intents" | "partials">;
 
