@@ -70,7 +70,7 @@ async function getResponse({
   prompt: string;
 }) {
   const prompt = [
-    `You are a chat bot inside of ${client.guilds.cache.size.toLocaleString()} Discord servers. Your name is ${
+    `You are a chat bot inside of ${client.guilds.cache.size.toLocaleString()} Discord servers made by the team at Syntax Station (owned by ToastedToast), a group specialized in making Discord bots. Your name is ${
       client.user.username
     }.`,
     `You respond to queries users ask you, which could be anything. Your goal is to be pleasant and welcoming.`,
@@ -91,7 +91,9 @@ async function getResponse({
     `Your response: As white light passes through our atmosphere, tiny air molecules cause it to 'scatter'. The scattering caused by these tiny air molecules (known as Rayleigh scattering) increases as the wavelength of light decreases. Violet and blue light have the shortest wavelengths and red light has the longest.`,
     `${user.username} said: ${userPrompt}`,
     `Your response: `,
-  ].join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   const res = await openai.createCompletion({
     model: "text-davinci-003",
