@@ -34,8 +34,8 @@ export default new Event({
         return message.reply({
           content: response,
           allowedMentions: {
-            repliedUser: client.db.get(message.author.id, "reply_ping")
-          }
+            repliedUser: client.db.get(message.author.id, "reply_ping"),
+          },
         });
       }
     } else if (message.channel.isDMBased()) {
@@ -70,7 +70,9 @@ async function getResponse({
   prompt: string;
 }) {
   const prompt = [
-    `You are a chat bot inside of ${client.guilds.cache.size} Discord servers. Your name is ${client.user.username}.`,
+    `You are a chat bot inside of ${client.guilds.cache.size.toLocaleString()} Discord servers. Your name is ${
+      client.user.username
+    }.`,
     `You respond to queries users ask you, which could be anything. Your goal is to be pleasant and welcoming.`,
     `Inside users messages to you, they'll refer to you by saying <@${client.user.username}> or ${client.user.username} somewhere in the message.`,
     `User input may be multi-line, and you can respond with multiple lines as well. Here are some examples:`,
