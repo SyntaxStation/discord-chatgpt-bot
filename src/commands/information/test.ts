@@ -4,7 +4,8 @@ import { Command } from "../../structures/Command";
 export default new Command({
   data: new SlashCommandBuilder()
     .setName("test")
-    .setDescription("Test to see if the bot is working."),
+    .setDescription("Test to see if the bot is working.")
+    .setDMPermission(false),
   run: ({ client, interaction }) =>
     interaction.reply({
       content: `${client.user.username} is working!`,

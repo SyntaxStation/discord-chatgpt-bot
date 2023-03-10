@@ -14,6 +14,10 @@ export default new Event({
   run: async (client, message) => {
     if (message.author.bot) return;
 
+    client.db.ensure(message.author.id, {
+      reply_ping: true,
+    });
+
     if (message.inGuild()) {
       if (message.mentions.users.has(client.user.id)) {
         await message.channel.sendTyping();
@@ -27,7 +31,12 @@ export default new Event({
             else return `<@:unknown>`;
           }),
         });
-        return message.reply(response);
+        return message.reply({
+          content: response,
+          allowedMentions: {
+            repliedUser: client.db.get(message.author.id, "reply_ping")
+          }
+        });
       }
     } else if (message.channel.isDMBased()) {
       await message.channel.sendTyping();
@@ -41,7 +50,12 @@ export default new Event({
           else return `<@:unknown>`;
         }),
       });
-      return message.reply(response);
+      return message.reply({
+        content: response,
+        allowedMentions: {
+          repliedUser: client.db.get(message.author.id, "reply_ping"),
+        },
+      });
     }
   },
 });

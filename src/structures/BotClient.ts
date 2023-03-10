@@ -10,11 +10,17 @@ import fs from "fs";
 import path from "path";
 import { CommandOptions } from "./Command";
 import config from "../config.json";
+import Enmap from "enmap";
 
 type BotOptions = Omit<ClientOptions, "intents" | "partials">;
 
 export class BotClient<Ready extends boolean = boolean> extends Client<Ready> {
   commands = new Collection<string, CommandOptions>();
+
+  db = new Enmap({
+    name: "Database",
+    dataDir: "./db",
+  });
 
   constructor(options?: BotOptions) {
     super({
@@ -49,10 +55,7 @@ export class BotClient<Ready extends boolean = boolean> extends Client<Ready> {
           if (!command?.data || !command?.run) return;
 
           this.commands.set(command.data.toJSON().name, command);
-          commands.push({
-            ...command.data.toJSON(),
-            dmPermission: false,
-          });
+          commands.push(command.data.toJSON());
         })
     );
 

@@ -10,19 +10,6 @@ export default new Event({
   name: "interactionCreate",
   run: async (client, interaction) => {
     if (!interaction.isChatInputCommand()) return;
-    if (!interaction.inGuild())
-      return (
-        interaction as ChatInputCommandInteraction<"cached" | "raw">
-      ).reply({
-        embeds: [
-          new EmbedBuilder()
-            .setTitle("Hey there! 👋")
-            .setDescription(
-              "You can only use my commands in Discord servers, see you there!"
-            )
-            .setColor("Blurple"),
-        ],
-      });
 
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
